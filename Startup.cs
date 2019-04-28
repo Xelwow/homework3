@@ -47,8 +47,6 @@ namespace HomeWork_API
                         e.ConfigureConsumer<AppendUserConsumer>(provider);
                         EndpointConvention.Map<AppendUserContract>(e.InputAddress);
                     });
-
-                    // or, configure the endpoints by convention
                     cfg.ConfigureEndpoints(provider);
                 }));
 

@@ -22,7 +22,8 @@ namespace HomeWork_API.BusinessLogic
             {
                 throw new ArgumentException("Некорректные данные о пользователе", nameof(user));
             }
-            return _userInfoService.AppendUser(user);
+            _userInfoService.AppendUser(user);
+            return Task.FromResult(user);
         }
         public Task<User> LazyHandle(User user)
         {

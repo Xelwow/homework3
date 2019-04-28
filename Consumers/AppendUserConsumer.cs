@@ -20,7 +20,7 @@ namespace HomeWork_API
         {
             await Console.Out.WriteLineAsync($"Append user to database: {context.Message.user}");
 
-            // update the customer address
+            // append user to database
 
             await _userInfoService.AppendUser(context.Message.user);
         }
