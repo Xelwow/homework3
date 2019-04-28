@@ -29,6 +29,13 @@ namespace HomeWork_API.Services
                 return await connection.QuerySingleAsync<User>("insert into \"SomeScheme\".users (id, username, city) values (@id, @username, @city)", user);
             }
         }
+        public async Task<User> LazyAppendUser(User user)
+        {
+            using (var connection = new NpgsqlConnection(ConnectionString))
+            {
+                return await connection.QuerySingleAsync<User>("insert into \"SomeScheme\".users (id, username, city) values (@id, @username, @city)", user);
+            }
+        }
     }
 
 }

@@ -11,6 +11,8 @@ namespace HomeWork_API.Services.Interfaces
         Task<User> GetById(Guid id);
 
         Task<User> AppendUser(User user);
+
+        Task<User> LazyAppendUser(User user);
     }
 
 }

@@ -12,6 +12,8 @@ using Microsoft.Extensions.Options;
 using HomeWork_API.Services.Interfaces;
 using HomeWork_API.BusinessLogic;
 using HomeWork_API.Services;
+using HomeWork_API.Contracts;
+using MassTransit;
 
 namespace HomeWork_API
 {
@@ -28,11 +30,31 @@ namespace HomeWork_API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
+            
             services.AddScoped<GetUsersInfoRequestHandler>();
             services.AddScoped<AppendUserRequestHandler>();
-
             services.AddScoped<IUserInfoService, UserInfoService>();
+
+            services.AddMassTransit(x =>
+            {
+                x.AddConsumer<AppendUserConsumer>();
+
+                x.AddBus(provider => Bus.Factory.CreateUsingInMemory(cfg =>
+                {
+
+                    cfg.ReceiveEndpoint("submit-order", e =>
+                    {
+                        e.ConfigureConsumer<AppendUserConsumer>(provider);
+                        EndpointConvention.Map<AppendUserContract>(e.InputAddress);
+                    });
+
+                    // or, configure the endpoints by convention
+                    cfg.ConfigureEndpoints(provider);
+                }));
+
+            });
+            services.AddHostedService<BusService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

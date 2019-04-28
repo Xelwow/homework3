@@ -33,6 +33,14 @@ namespace HomeWork_API.Controllers
 
             return _appendUserRequestHandler.Handle(user);
         }
+
+        [HttpPost("lazyappend")]
+        public Task<User> LazyAppend([FromBody] User user)
+        {
+            user.id = Guid.NewGuid();
+
+            return _appendUserRequestHandler.LazyHandle(user);
+        }
     }
 
 }
